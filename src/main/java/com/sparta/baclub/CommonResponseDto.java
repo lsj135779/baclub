@@ -1,11 +1,12 @@
 package com.sparta.baclub;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-
+@NoArgsConstructor
 public class CommonResponseDto {
     private String msg;
     private Integer statusCode;
@@ -14,4 +15,5 @@ public class CommonResponseDto {
         this.msg = message;
         this.statusCode = value;
     }
+
 }
