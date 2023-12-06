@@ -1,4 +1,4 @@
-package com.sparta.baclub.User_notgit;
+package com.sparta.baclub;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "users")
+//@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,13 +24,13 @@ public class User {
     @Column(nullable = false)
     private String nickname;
 
-    @Column(nullable = true)
+    @Column
     private int age;
 
-    @Column(nullable = true)
+    @Column
     private String sex;
 
-    @Column(nullable = true)
+    @Column
     private String address;
 
     @Column(nullable = false)
