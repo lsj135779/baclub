@@ -1,10 +1,10 @@
-package com.sparta.baclub.service;
+package com.sparta.baclub.user.service;
 
-import com.sparta.baclub.dto.LoginRequestDto;
-import com.sparta.baclub.dto.SignupRequestDto;
-import com.sparta.baclub.entity.User;
-import com.sparta.baclub.repository.UserRepository;
-import com.sparta.baclub.entity.UserRoleEnum;
+import com.sparta.baclub.user.dto.LoginRequestDto;
+import com.sparta.baclub.user.dto.SignupRequestDto;
+import com.sparta.baclub.user.entity.User;
+import com.sparta.baclub.user.repository.UserRepository;
+import com.sparta.baclub.user.entity.UserRoleEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

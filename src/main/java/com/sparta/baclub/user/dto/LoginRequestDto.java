@@ -1,4 +1,4 @@
-package com.sparta.baclub.dto;
+package com.sparta.baclub.user.dto;
 
 import lombok.Getter;
 import lombok.Setter;
