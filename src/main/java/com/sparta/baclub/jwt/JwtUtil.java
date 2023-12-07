@@ -1,6 +1,6 @@
 package com.sparta.baclub.jwt;
 
-import com.sparta.baclub.dto.UserRoleEnum;
+import com.sparta.baclub.entity.UserRoleEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;

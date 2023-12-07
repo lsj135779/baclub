@@ -1,6 +1,6 @@
 package com.sparta.baclub.repository;
 
-import com.sparta.baclub.dto.User;
+import com.sparta.baclub.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
