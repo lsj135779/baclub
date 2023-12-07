@@ -1,7 +1,7 @@
-package com.sparta.baclub.userDetails;
+package com.sparta.baclub.user.userDetails;
 
-import com.sparta.baclub.entity.User;
-import com.sparta.baclub.repository.UserRepository;
+import com.sparta.baclub.user.entity.User;
+import com.sparta.baclub.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

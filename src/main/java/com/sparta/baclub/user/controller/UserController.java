@@ -1,13 +1,12 @@
-package com.sparta.baclub.controller;
+package com.sparta.baclub.user.controller;
 
 
-import com.sparta.baclub.dto.CommonResponseDto;
-import com.sparta.baclub.dto.SignupRequestDto;
-import com.sparta.baclub.dto.UserInfoDto;
-import com.sparta.baclub.entity.UserRoleEnum;
+import com.sparta.baclub.user.dto.SignupRequestDto;
+import com.sparta.baclub.user.dto.UserInfoDto;
+import com.sparta.baclub.user.entity.UserRoleEnum;
 import com.sparta.baclub.jwt.JwtUtil;
-import com.sparta.baclub.userDetails.UserDetailsImpl;
-import com.sparta.baclub.service.UserService;
+import com.sparta.baclub.user.userDetails.UserDetailsImpl;
+import com.sparta.baclub.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 

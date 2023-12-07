@@ -3,7 +3,7 @@ package com.sparta.baclub.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.baclub.jwt.JwtAuthorizationFilter;
 import com.sparta.baclub.jwt.JwtUtil;
-import com.sparta.baclub.userDetails.UserDetailsServiceImpl;
+import com.sparta.baclub.user.userDetails.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
