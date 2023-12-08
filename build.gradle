@@ -44,6 +44,13 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    // @Mapper 사용을 위한 MapStruct 의존성 추가
+
+    implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+
+    // @Mapper 사용을 위한 MapStruct 컴파일러 의존성 추가
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 }
 
 tasks.named('test') {
