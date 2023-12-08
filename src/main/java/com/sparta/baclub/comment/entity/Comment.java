@@ -1,6 +1,7 @@
 package com.sparta.baclub.comment.entity;
 
 import com.sparta.baclub.Timestamped;
+import com.sparta.baclub.board.entity.BoardEntity;
 import com.sparta.baclub.comment.dto.CommentRequestDto;
 import com.sparta.baclub.comment.dto.CommentResponseDto;
 import com.sparta.baclub.user.entity.User;
@@ -23,16 +24,16 @@ public class Comment extends Timestamped {
     // post, user 관계설정하기
     @ManyToOne
     @JoinColumn(name = "post_id")
-    private Post post;
+    private BoardEntity board;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Comment(Post post, CommentRequestDto commentRequestDto, User user) {
+    public Comment(BoardEntity board, CommentRequestDto commentRequestDto, User user) {
         this.content = commentRequestDto.getContent();
         // post 정보 저장하기
-        this.post = post;
+        this.board = board;
         // user 정보 저장하기
         this.user = user;
     }
