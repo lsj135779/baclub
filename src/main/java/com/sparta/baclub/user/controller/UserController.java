@@ -9,6 +9,7 @@ import com.sparta.baclub.user.entity.UserRoleEnum;
 import com.sparta.baclub.jwt.JwtUtil;
 import com.sparta.baclub.user.userDetails.UserDetailsImpl;
 import com.sparta.baclub.user.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +48,8 @@ public class UserController {
             return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
 
-        response.setHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(loginRequestDto.getUsername(), UserRoleEnum.USER));
+        response.setHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createAcessToken(loginRequestDto.getUsername(), UserRoleEnum.USER));
+        response.setHeader(JwtUtil.REFRESH_AUTHORIZATION_HEADER, jwtUtil.createRefreshToken(UserRoleEnum.USER));
 
         return ResponseEntity.ok().body(new CommonResponseDto("로그인 성공", HttpStatus.OK.value()));
     }
