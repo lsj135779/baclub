@@ -21,6 +21,7 @@ import java.util.Date;
 public class JwtUtil {
     // Header KEY 값
     public static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String REFRESH_AUTHORIZATION_HEADER = "Refresh-Authorization";
     // 사용자 권한 값의 KEY
     public static final String AUTHORIZATION_KEY = "auth";
     // Token 식별자
@@ -63,13 +64,15 @@ public class JwtUtil {
                     .compact();
     }
 
-    public String createRefreshToken(String username, UserRoleEnum role) {
+    public String createRefreshToken(UserRoleEnum role) {
         Date date = new Date();
         // Refresh Token 생성
         return BEARER_PREFIX +
                 Jwts.builder()
+                        .claim(AUTHORIZATION_KEY, role)
                         .setExpiration(new Date(date.getTime() + REFRESH_TOKEN_EXPIRE_TIME))
-                        .signWith(key, SignatureAlgorithm.HS256)
+                        .setIssuedAt(date) // 발급일
+                        .signWith(key, signatureAlgorithm)
                         .compact();
     }
 
