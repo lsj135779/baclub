@@ -1,12 +1,12 @@
 package com.sparta.baclub.user.entity;
 
 import com.sparta.baclub.Timestamped;
+import com.sparta.baclub.board.entity.BoardEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -44,8 +44,8 @@ public class User extends Timestamped {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-//    private List<Post> postList;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<BoardEntity> BoardList;
 
     public User(String username, String password, String nickname, int age, String sex, String address, String phoneNumber, UserRoleEnum role) {
         this.username = username;
