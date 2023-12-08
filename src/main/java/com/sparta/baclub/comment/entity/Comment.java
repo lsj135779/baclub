@@ -3,6 +3,7 @@ package com.sparta.baclub.comment.entity;
 import com.sparta.baclub.Timestamped;
 import com.sparta.baclub.comment.dto.CommentRequestDto;
 import com.sparta.baclub.comment.dto.CommentResponseDto;
+import com.sparta.baclub.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,11 +29,12 @@ public class Comment extends Timestamped {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Comment(Post post, CommentRequestDto commentRequestDto) {
+    public Comment(Post post, CommentRequestDto commentRequestDto, User user) {
         this.content = commentRequestDto.getContent();
         // post 정보 저장하기
         this.post = post;
         // user 정보 저장하기
+        this.user = user;
     }
 
 

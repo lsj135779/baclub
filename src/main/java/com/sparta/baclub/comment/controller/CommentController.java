@@ -4,9 +4,11 @@ import com.sparta.baclub.CommonResponseDto;
 import com.sparta.baclub.comment.dto.CommentRequestDto;
 import com.sparta.baclub.comment.dto.CommentResponseDto;
 import com.sparta.baclub.comment.service.CommentService;
+import com.sparta.baclub.user.userDetails.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,9 +20,9 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping ("/{post_id}")
-    public ResponseEntity<CommonResponseDto> postComment(@PathVariable Long post_id, @RequestBody CommentRequestDto commentRequestDto) { //로그인 정보 추가
+    public ResponseEntity<CommonResponseDto> postComment(@PathVariable Long post_id, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) { //로그인 정보 추가
         try {
-            CommentResponseDto commentResponseDto = commentService.createComment(post_id, commentRequestDto);
+            CommentResponseDto commentResponseDto = commentService.createComment(post_id, commentRequestDto, userDetails.getUser());
             return ResponseEntity.ok().body(commentResponseDto);
         } catch (IllegalArgumentException e) {
             CommonResponseDto commonResponseDto = new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
@@ -35,9 +37,9 @@ public class CommentController {
     }
 
     @PatchMapping("/{comment_id}")
-    public ResponseEntity<CommonResponseDto> patchComment(@PathVariable Long comment_id, @RequestBody CommentRequestDto commentRequestDto) { //로그인 정보 추가
+    public ResponseEntity<CommonResponseDto> patchComment(@PathVariable Long comment_id, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) { //로그인 정보 추가
         try {
-            CommentResponseDto commentResponseDto = commentService.updateComment(comment_id, commentRequestDto);
+            CommentResponseDto commentResponseDto = commentService.updateComment(comment_id, commentRequestDto, userDetails.getUser());
             return ResponseEntity.ok().body(commentResponseDto);
         } catch (IllegalArgumentException e) {
             CommonResponseDto commonResponseDto = new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
@@ -46,9 +48,9 @@ public class CommentController {
     }
 
     @DeleteMapping("/{comment_id}")
-    public ResponseEntity<CommonResponseDto> deleteComment(@PathVariable Long comment_id) { //로그인 정보 추가
+    public ResponseEntity<CommonResponseDto> deleteComment(@PathVariable Long comment_id, @AuthenticationPrincipal UserDetailsImpl userDetails) { //로그인 정보 추가
         try {
-            commentService.deleteComment(comment_id);
+            commentService.deleteComment(comment_id, userDetails.getUser());
             return ResponseEntity.ok().body(new CommonResponseDto("댓글 삭제가 완료되었습니다.", HttpStatus.OK.value()));
         } catch (IllegalArgumentException e) {
             CommonResponseDto commonResponseDto = new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());

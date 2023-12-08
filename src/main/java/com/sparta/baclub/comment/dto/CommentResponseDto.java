@@ -11,11 +11,13 @@ public class CommentResponseDto extends CommonResponseDto {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    private String userNickname;
 
     public CommentResponseDto(Comment comment) {
         this.content = comment.getContent();
         this.createdAt = comment.getCreatedAt();
         this.modifiedAt = comment.getModifiedAt();
+        this.userNickname = comment.getUser().getNickname();
     }
 
 }

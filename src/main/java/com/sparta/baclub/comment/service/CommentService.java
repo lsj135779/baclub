@@ -4,6 +4,7 @@ import com.sparta.baclub.comment.dto.CommentRequestDto;
 import com.sparta.baclub.comment.dto.CommentResponseDto;
 import com.sparta.baclub.comment.entity.Comment;
 import com.sparta.baclub.comment.repository.CommentRepository;
+import com.sparta.baclub.user.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class CommentService {
     private final PostRepository postRepository;
 
 
-    public CommentResponseDto createComment(Long postId, CommentRequestDto commentRequestDto) {
+    public CommentResponseDto createComment(Long postId, CommentRequestDto commentRequestDto, User user) {
         // 게시글이 있는지 postId 확인하기
         Post post = PostRepository.findByid(postId).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
 
@@ -27,7 +28,7 @@ public class CommentService {
             throw new IllegalArgumentException("내용을 입력해주세요.");
         }
 
-        Comment comment = new Comment(post, commentRequestDto);
+        Comment comment = new Comment(post, commentRequestDto, user);
         commentRepository.save(comment);
         return new CommentResponseDto(comment);
     }
@@ -43,21 +44,25 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentResponseDto updateComment(Long commentId, CommentRequestDto commentRequestDto) {
+    public CommentResponseDto updateComment(Long commentId, CommentRequestDto commentRequestDto, User user) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다."));
 
         // 로그인한 유저가 댓글을 작성한 유저와 같은지 검사
-
+        if (!comment.getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("댓글 작성자만 수정 가능합니다");
+        }
 
         CommentResponseDto commentResponseDto = comment.update(commentRequestDto);
         return commentResponseDto;
     }
 
-    public void deleteComment(Long commentId) {
+    public void deleteComment(Long commentId, User user) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다."));
 
         // 로그인한 유저가 댓글을 작성한 유저와 같은지 검사
-
+        if (!comment.getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("댓글 작성자만 수정 가능합니다");
+        }
 
         commentRepository.delete(comment);
     }
