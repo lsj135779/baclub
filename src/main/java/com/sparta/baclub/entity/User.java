@@ -1,6 +1,7 @@
 package com.sparta.baclub.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -40,7 +41,11 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-    public User(String username, String password, String nickname, int age, String sex, String address, String phoneNumber, UserRoleEnum role) {
+    @Builder
+    public User(String username, String password,
+                String nickname, int age,
+                String sex, String address,
+                String phoneNumber, UserRoleEnum role) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
@@ -49,5 +54,22 @@ public class User {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.role = role;
+    }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void updateAddress(String address) {
+        this.address = address;
+    }
+
+
+    public void updateAge(int age) {
+        this.age = age;
+    }
+
+    public void updatePhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

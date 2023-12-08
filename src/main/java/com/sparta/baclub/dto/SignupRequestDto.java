@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SignupRequestDto {
+
     @NotBlank
     @Pattern(regexp = "^[a-z0-9]{4,10}$")
     private String username;
@@ -21,6 +22,7 @@ public class SignupRequestDto {
     private String sex;
     int age;
     private String address;
+    public String getActivate;
     boolean admin = false;
     private String adminToken = "";
 }
