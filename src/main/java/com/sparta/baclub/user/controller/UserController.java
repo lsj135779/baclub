@@ -6,22 +6,17 @@ import com.sparta.baclub.user.dto.*;
 import com.sparta.baclub.user.entity.User;
 import com.sparta.baclub.user.entity.UserRoleEnum;
 import com.sparta.baclub.jwt.JwtUtil;
-import com.sparta.baclub.user.repository.RedisRepository;
 import com.sparta.baclub.user.service.RefreshTokenService;
 import com.sparta.baclub.user.userDetails.UserDetailsImpl;
 import com.sparta.baclub.user.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -30,7 +25,6 @@ public class UserController {
 
     private final UserService userService;
     private final JwtUtil jwtUtil;
-    private final RedisRepository redisRepository;
     private final RefreshTokenService refreshTokenService;
 
 
