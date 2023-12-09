@@ -1,6 +1,5 @@
 package com.sparta.baclub.board.exception;
 
-import com.sparta.baclub.board.dto.Response.RestResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
