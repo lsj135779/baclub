@@ -74,7 +74,12 @@ public class UserController {
         return new ResponseEntity(loginResponse, HttpStatus.OK);
     }
 
-
+    @DeleteMapping("/logout")
+    public ResponseEntity logout(@RequestBody RefreshTokenDto refreshTokenDto) {
+        refreshTokenService.deleteRefreshToken(refreshTokenDto.getRefreshToken());
+        return ResponseEntity.status(HttpStatus.OK.value())
+                .body(new CommonResponseDto("로그아웃 성공", HttpStatus.OK.value()));
+    }
 
     @GetMapping("/user-info")
     @ResponseBody

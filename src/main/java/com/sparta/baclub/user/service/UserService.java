@@ -6,9 +6,7 @@ import com.sparta.baclub.user.dto.SignupRequestDto;
 import com.sparta.baclub.user.entity.User;
 import com.sparta.baclub.user.repository.UserRepository;
 import com.sparta.baclub.user.entity.UserRoleEnum;
-import com.sparta.baclub.user.userDetails.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,14 +75,6 @@ public class UserService {
             throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         }
     }
-
-//    public String logout(String )
-
-//    @Transactional
-//    public void  signOut(Long userId) {
-//        Optional<User> signOutUser = userRepository.findAllById(userId);
-//
-//    }
 
     @Transactional(readOnly = true)
     public User findByUsername(String username) {
