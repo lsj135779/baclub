@@ -1,20 +1,17 @@
 package com.sparta.baclub.user.entity;
 
-import com.sparta.baclub.Timestamped;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 //@Table(name = "users")
-public class User extends Timestamped {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,10 +41,11 @@ public class User extends Timestamped {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-//    private List<Post> postList;
-
-    public User(String username, String password, String nickname, int age, String sex, String address, String phoneNumber, UserRoleEnum role) {
+    @Builder
+    public User(String username, String password,
+                String nickname, int age,
+                String sex, String address,
+                String phoneNumber, UserRoleEnum role) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
@@ -58,6 +56,20 @@ public class User extends Timestamped {
         this.role = role;
     }
 
-}
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
-//
+    public void updateAddress(String address) {
+        this.address = address;
+    }
+
+
+    public void updateAge(int age) {
+        this.age = age;
+    }
+
+    public void updatePhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+}
