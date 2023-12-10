@@ -75,7 +75,7 @@ public class BoardService {
     public BoardResponseDto completeBoard(Long boardId, User user) {
         Board board = getUserBoard(boardId, user);
 
-        board.complete(); // 완료 처리
+        board.complete(); //  완료 처리
 
         return new BoardResponseDto(board);
     }
