@@ -1,8 +1,8 @@
 package com.sparta.baclub.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.baclub.dto.CommonResponseDto;
-import com.sparta.baclub.userDetails.UserDetailsServiceImpl;
+import com.sparta.baclub.CommonResponseDto;
+import com.sparta.baclub.user.userDetails.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

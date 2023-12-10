@@ -1,20 +1,11 @@
 package com.sparta.baclub.service;
 
-import com.sparta.baclub.dto.CommonResponseDto;
 import com.sparta.baclub.dto.LoginRequestDto;
 import com.sparta.baclub.dto.SignupRequestDto;
 import com.sparta.baclub.entity.User;
-import com.sparta.baclub.profile.dto.reponse.*;
-import com.sparta.baclub.profile.dto.request.AddressRequestDto;
-import com.sparta.baclub.profile.dto.request.AgeRequestDto;
-import com.sparta.baclub.profile.dto.request.NicknameRequestDto;
-import com.sparta.baclub.profile.dto.request.PhoneNumberRequestDto;
-import com.sparta.baclub.profile.entity.Profile;
 import com.sparta.baclub.repository.UserRepository;
 import com.sparta.baclub.entity.UserRoleEnum;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -101,82 +92,5 @@ public class UserService {
         if(!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         }
-    }
-
-    @Transactional
-    public NicknameResponseDto updateNickname(final User user, final NicknameRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
-        Optional<User> findUser = userRepository.findByNickname(requestDto.getNickname());
-        if (findUser.isPresent()) {
-            throw new IllegalArgumentException("사용자의 아이디가 아닙니다.");
-        }
-
-        User loginUser = userRepository.findById(user.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
-
-        loginUser.updateNickname(requestDto.getNickname());
-
-        return NicknameResponseDto.builder()
-                .username(loginUser.getUsername())
-                .nickname(loginUser.getNickname())
-                .build();
-    }
-
-    @Transactional
-    public AddressResponseDto updateAddress(final User user, final AddressRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
-        Optional<User> findUser = userRepository.findByAddress(requestDto.getAddress());
-        if (findUser.isPresent()) {
-            throw new IllegalArgumentException("사용자의 아이디가 아닙니다.");
-        }
-
-        User loginUser = userRepository.findById(user.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
-
-        loginUser.updateAddress(requestDto.getAddress());
-
-        return AddressResponseDto.builder()
-                .username(loginUser.getUsername())
-                .address(loginUser.getAddress())
-                .build();
-    }
-
-    @Transactional
-    public AgeResponseDto updateAge(final User user, final AgeRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
-        Optional<User> findUser = userRepository.findByAge(requestDto.getAge());
-        if (findUser.isPresent()) {
-            throw new IllegalArgumentException("사용자의 아이디가 아닙니다.");
-        }
-
-        User loginUser = userRepository.findById(user.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
-
-        loginUser.updateAge(requestDto.getAge());
-
-        return AgeResponseDto.builder()
-                .username(loginUser.getUsername())
-                .age(loginUser.getAge())
-                .build();
-    }
-
-    public PhoneNumberResponseDto updatePhoneNumber(final User user, final PhoneNumberRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
-        Optional<User> findUser = userRepository.findByPhoneNumber(requestDto.getPhoneNumber());
-        if (findUser.isPresent()) {
-            throw new IllegalArgumentException("사용자의 아이디가 아닙니다.");
-        }
-        User loginUSer = userRepository.findById(user.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
-
-        loginUSer.updatePhoneNumber(requestDto.getPhoneNumber());
-
-        return PhoneNumberResponseDto.builder()
-                .username(loginUSer.getUsername())
-                .phonenumber(loginUSer.getPhoneNumber())
-                .build();
-    }
-
-    public Profile getUserData(final User user) {
-        return Profile.builder()
-                .username(user.getUsername())
-                .nickname(user.getNickname())
-                .age(String.valueOf(user.getAge()))
-                .sex(user.getSex())
-                .address(user.getAddress())
-                .phoneNumber(user.getPhoneNumber())
-                .build();
     }
 }

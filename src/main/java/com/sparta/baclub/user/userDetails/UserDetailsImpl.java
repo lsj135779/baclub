@@ -1,7 +1,7 @@
-package com.sparta.baclub.userDetails;
+package com.sparta.baclub.user.userDetails;
 
-import com.sparta.baclub.entity.User;
-import com.sparta.baclub.entity.UserRoleEnum;
+import com.sparta.baclub.user.entity.User;
+import com.sparta.baclub.user.entity.UserRoleEnum;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
