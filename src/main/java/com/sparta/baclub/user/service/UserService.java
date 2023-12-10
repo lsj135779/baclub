@@ -1,6 +1,10 @@
 package com.sparta.baclub.user.service;
 
-import com.sparta.baclub.profile.dto.reponse.*;
+
+import com.sparta.baclub.profile.dto.reponse.AddressResponseDto;
+import com.sparta.baclub.profile.dto.reponse.AgeResponseDto;
+import com.sparta.baclub.profile.dto.reponse.NicknameResponseDto;
+import com.sparta.baclub.profile.dto.reponse.PhoneNumberResponseDto;
 import com.sparta.baclub.profile.dto.request.AddressRequestDto;
 import com.sparta.baclub.profile.dto.request.AgeRequestDto;
 import com.sparta.baclub.profile.dto.request.NicknameRequestDto;
@@ -10,8 +14,9 @@ import jakarta.transaction.Transactional;
 import com.sparta.baclub.user.dto.LoginRequestDto;
 import com.sparta.baclub.user.dto.SignupRequestDto;
 import com.sparta.baclub.user.entity.User;
-import com.sparta.baclub.user.repository.UserRepository;
 import com.sparta.baclub.user.entity.UserRoleEnum;
+import com.sparta.baclub.user.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -101,7 +106,6 @@ public class UserService {
             throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         }
     }
-
     @Transactional
     public NicknameResponseDto updateNickname(final User user, final NicknameRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
         Optional<User> findUser = userRepository.findByNickname(requestDto.getNickname());
