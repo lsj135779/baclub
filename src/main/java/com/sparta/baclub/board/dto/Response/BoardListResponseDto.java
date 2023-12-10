@@ -15,7 +15,6 @@ public class BoardListResponseDto {
     public BoardListResponseDto(UserInfoDto user, List<BoardResponseDto> boardList){
         this.user = user;
         this.boardList = boardList;
-
     }
 
 }

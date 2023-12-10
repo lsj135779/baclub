@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +38,7 @@ public class CommentService {
 
 
     public List<CommentResponseDto> getComments(Long postId) {
-//        List<Comment> commentList = commentRepository.findAllBypostId(postId); // 댓글DB에서 postId로 가져오는 거 테스트
+        Optional<Comment> commentList = commentRepository.findAllBypostId(postId); // 댓글DB에서 postId로 가져오는 거 테스트
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
 //        commentList.forEach(comment -> commentResponseDtoList.add(new CommentResponseDto(comment)));

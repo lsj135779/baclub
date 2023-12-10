@@ -4,11 +4,11 @@ import com.sparta.baclub.CommonResponseDto;
 import com.sparta.baclub.board.dto.Request.BoardRequestDto;
 import com.sparta.baclub.board.dto.Response.BoardListResponseDto;
 import com.sparta.baclub.board.dto.Response.BoardResponseDto;
-import com.sparta.baclub.board.entity.Board;
 import com.sparta.baclub.board.service.BoardService;
 import com.sparta.baclub.user.dto.UserInfoDto;
 import com.sparta.baclub.user.userDetails.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.RejectedExecutionException;
 
 @RequestMapping("/api/v1/boards")
 @RestController
@@ -25,7 +24,7 @@ import java.util.concurrent.RejectedExecutionException;
 public class BoardController {
     private final BoardService boardService;
 
-    @PostMapping("/{boardId}")
+    @PostMapping
     public ResponseEntity<BoardResponseDto> boardId(@RequestBody BoardRequestDto boardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         BoardResponseDto responseDto = boardService.createBoard(boardRequestDto, userDetails.getUser());
 
@@ -35,15 +34,13 @@ public class BoardController {
     @GetMapping("/{boardId}")
     public ResponseEntity<CommonResponseDto> getBoard(@PathVariable Long boardId) {
         try {
-            Board responseDto = boardService.getBoard(boardId);
-            return ResponseEntity.ok().body(new CommonResponseDto(responseDto, HttpStatus.OK.value()));
+            BoardResponseDto boardResponseDto = boardService.getBoard(boardId);
+            return ResponseEntity.ok().body(boardResponseDto);
         } catch (IllegalArgumentException e) {
             CommonResponseDto commonResponseDto = new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return ResponseEntity.badRequest().body(commonResponseDto);
         }
     }
-
-
 
     @GetMapping
     public ResponseEntity<List<BoardListResponseDto>> getBoardList(){
@@ -54,19 +51,7 @@ public class BoardController {
         responseDtoMap.forEach((key, value) -> response.add(new BoardListResponseDto(key, value)));
 
         return ResponseEntity.ok().body(response);
-
     }
-    @PutMapping("/{boardId}")
-    public ResponseEntity<CommonResponseDto> putBoard(@PathVariable Long boardId, @RequestBody BoardRequestDto boardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        try {
-            BoardResponseDto responseDto = boardService.updateBoard(boardId, boardRequestDto, userDetails.getUser());
-            return ResponseEntity.ok().body(responseDto);
-        } catch (RejectedExecutionException | IllegalArgumentException ex) {
-            CommonResponseDto commonResponseDto = new CommonResponseDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
-            return ResponseEntity.badRequest().body(commonResponseDto);
-        }
-    }
-
 
     @PatchMapping("/{boardId}")
     public ResponseEntity<CommonResponseDto> patchBoard(@PathVariable Long boardId, @RequestBody BoardRequestDto boardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) { //로그인

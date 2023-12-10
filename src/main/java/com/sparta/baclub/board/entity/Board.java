@@ -1,5 +1,6 @@
 package com.sparta.baclub.board.entity;
 
+import com.sparta.baclub.Timestamped;
 import com.sparta.baclub.board.dto.Request.BoardRequestDto;
 import com.sparta.baclub.board.dto.Response.BoardResponseDto;
 import com.sparta.baclub.comment.entity.Comment;
@@ -10,11 +11,10 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-Board.java (Board의 entity파일)
 @Entity
 @Getter
 @NoArgsConstructor
-public class Board {
+public class Board extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,10 +26,8 @@ public class Board {
     private String content;
 
     @Column
-    private LocalDateTime createDate;
+    private String category;
 
-    @Column
-    private Boolean isCompleted;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -41,8 +39,7 @@ public class Board {
     public Board(BoardRequestDto dto){
         this.title = dto.getTitle();
         this.content = dto.getContent();
-        this.createDate = LocalDateTime.now();
-        this.isCompleted = false;
+        this.category = dto.getCategory();
     }
     //연관관계 메서드
     public void setUser(User user){
@@ -56,14 +53,5 @@ public class Board {
 
     public void setContent(String content){
         this.content = content;
-    }
-
-    public void complete(){
-        this.isCompleted = true;
-    };
-
-    public BoardResponseDto update(BoardRequestDto boardRequestDto) {
-        this.content = boardRequestDto.getContent();
-        return new BoardResponseDto(this);
     }
 }
