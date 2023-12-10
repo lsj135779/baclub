@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SignupRequestDto {
+
     @NotBlank
     @Pattern(regexp = "^[a-z0-9]{4,10}$",
              message = "아이디는 영문+숫자를 포함한 4~10자리여야 합니다.")
@@ -25,6 +26,7 @@ public class SignupRequestDto {
     private String sex;
     int age;
     private String address;
+    public String getActivate;
     boolean admin = false;
     private String adminToken = "";
 }

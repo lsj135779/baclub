@@ -1,5 +1,7 @@
 package com.sparta.baclub.comment.service;
 
+import com.sparta.baclub.board.entity.Board;
+import com.sparta.baclub.board.repository.BoardRepository;
 import com.sparta.baclub.comment.dto.CommentRequestDto;
 import com.sparta.baclub.comment.dto.CommentResponseDto;
 import com.sparta.baclub.comment.entity.Comment;
@@ -11,31 +13,32 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
-    private final PostRepository postRepository;
+    private final BoardRepository boardRepository;
 
 
     public CommentResponseDto createComment(Long postId, CommentRequestDto commentRequestDto, User user) {
         // 게시글이 있는지 postId 확인하기
-        Post post = PostRepository.findByid(postId).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
+        Board board = boardRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
 
         // 요청한 정보에 content가 없는 경우
         if (commentRequestDto.getContent() == null) {
             throw new IllegalArgumentException("내용을 입력해주세요.");
         }
 
-        Comment comment = new Comment(post, commentRequestDto, user);
+        Comment comment = new Comment(board, commentRequestDto, user);
         commentRepository.save(comment);
         return new CommentResponseDto(comment);
     }
 
 
     public List<CommentResponseDto> getComments(Long postId) {
-        List<Comment> commentList = commentRepository.findAllBypostId(postId); // 테스트 필요
+        List<Comment> commentList = commentRepository.findAllBypostId(postId); // 댓글DB에서 postId로 가져오는 거 테스트
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
         commentList.forEach(comment -> commentResponseDtoList.add(new CommentResponseDto(comment)));
