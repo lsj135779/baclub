@@ -1,6 +1,6 @@
 package com.sparta.baclub.profile.entity;
 
-import com.sparta.baclub.entity.User;
+import com.sparta.baclub.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

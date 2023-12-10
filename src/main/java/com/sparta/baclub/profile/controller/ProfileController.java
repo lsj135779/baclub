@@ -2,7 +2,6 @@ package com.sparta.baclub.profile.controller;
 
 
 
-import com.sparta.baclub.entity.User;
 import com.sparta.baclub.profile.dto.reponse.AddressResponseDto;
 import com.sparta.baclub.profile.dto.reponse.AgeResponseDto;
 import com.sparta.baclub.profile.dto.reponse.NicknameResponseDto;
@@ -12,7 +11,8 @@ import com.sparta.baclub.profile.dto.request.AgeRequestDto;
 import com.sparta.baclub.profile.dto.request.NicknameRequestDto;
 import com.sparta.baclub.profile.dto.request.PhoneNumberRequestDto;
 import com.sparta.baclub.profile.entity.Profile;
-import com.sparta.baclub.service.UserService;
+import com.sparta.baclub.user.entity.User;
+import com.sparta.baclub.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;

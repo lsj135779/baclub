@@ -1,16 +1,16 @@
 package com.sparta.baclub.porfile;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import com.sparta.baclub.entity.User;
-import com.sparta.baclub.entity.UserRoleEnum;
 import com.sparta.baclub.profile.dto.reponse.*;
 import com.sparta.baclub.profile.dto.request.AddressRequestDto;
 import com.sparta.baclub.profile.dto.request.AgeRequestDto;
 import com.sparta.baclub.profile.dto.request.NicknameRequestDto;
 import com.sparta.baclub.profile.dto.request.PhoneNumberRequestDto;
 import com.sparta.baclub.profile.entity.Profile;
-import com.sparta.baclub.repository.UserRepository;
-import com.sparta.baclub.service.UserService;
+import com.sparta.baclub.user.entity.User;
+import com.sparta.baclub.user.entity.UserRoleEnum;
+import com.sparta.baclub.user.repository.UserRepository;
+import com.sparta.baclub.user.service.UserService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
