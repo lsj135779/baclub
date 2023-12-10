@@ -1,5 +1,7 @@
 package com.sparta.baclub.board.entity;
 
+import com.sparta.baclub.board.dto.Request.BoardRequestDto;
+import com.sparta.baclub.board.dto.Response.BoardResponseDto;
 import com.sparta.baclub.comment.entity.Comment;
 import com.sparta.baclub.user.entity.User;
 import jakarta.persistence.*;
@@ -8,6 +10,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+Board.java (Board의 entity파일)
 @Entity
 @Getter
 @NoArgsConstructor
@@ -35,7 +38,7 @@ public class Board {
     @OneToMany(mappedBy = "board")
     private List<Comment> comments;
 
-    public Board(BoardRequestDTO dto){
+    public Board(BoardRequestDto dto){
         this.title = dto.getTitle();
         this.content = dto.getContent();
         this.createDate = LocalDateTime.now();
@@ -58,4 +61,9 @@ public class Board {
     public void complete(){
         this.isCompleted = true;
     };
+
+    public BoardResponseDto update(BoardRequestDto boardRequestDto) {
+        this.content = boardRequestDto.getContent();
+        return new BoardResponseDto(this);
+    }
 }

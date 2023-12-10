@@ -1,67 +1,93 @@
 package com.sparta.baclub.board.controller;
 
-import com.sparta.baclub.board.dto.Request.BoardAddRequestDto;
-import com.sparta.baclub.board.dto.Request.BoardDeleteReq;
-import com.sparta.baclub.board.dto.Request.BoardUpdateRequestDto;
-import com.sparta.baclub.board.dto.Request.FeedBoardReq;
-import com.sparta.baclub.board.dto.Response.*;
+import com.sparta.baclub.CommonResponseDto;
+import com.sparta.baclub.board.dto.Request.BoardRequestDto;
+import com.sparta.baclub.board.dto.Response.BoardListResponseDto;
+import com.sparta.baclub.board.dto.Response.BoardResponseDto;
+import com.sparta.baclub.board.entity.Board;
 import com.sparta.baclub.board.service.BoardService;
+import com.sparta.baclub.user.dto.UserInfoDto;
 import com.sparta.baclub.user.userDetails.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.RejectedExecutionException;
+
+@RequestMapping("/api/v1/boards")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/boards")
 public class BoardController {
-
     private final BoardService boardService;
 
-    //포스트 작성
-    @PostMapping
-    public RestResponse<BoardSaveRes> addBoard(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestBody BoardAddRequestDto requestDto) {
-        requestDto.setUserId(userDetails.getUser().getUserId());
-        return RestResponse.success(boardService.addBoard(requestDto));
+    @PostMapping("/{boardId}")
+    public ResponseEntity<BoardResponseDto> boardId(@RequestBody BoardRequestDto boardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        BoardResponseDto responseDto = boardService.createBoard(boardRequestDto, userDetails.getUser());
+
+        return ResponseEntity.status(201).body(responseDto);
     }
 
-    //포스트 단일 조회
     @GetMapping("/{boardId}")
-    public RestResponse<BoardGetRes> getBoard(@PathVariable Long boardId) {
-        return RestResponse.success(boardService.getBoard(boardId));
+    public ResponseEntity<CommonResponseDto> getBoard(@PathVariable Long boardId) {
+        try {
+            Board responseDto = boardService.getBoard(boardId);
+            return ResponseEntity.ok().body(new CommonResponseDto(responseDto, HttpStatus.OK.value()));
+        } catch (IllegalArgumentException e) {
+            CommonResponseDto commonResponseDto = new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+            return ResponseEntity.badRequest().body(commonResponseDto);
+        }
     }
 
-    //포스트 전체 조회
+
+
     @GetMapping
-    public RestResponse<BoardGetResList> getBoards() {
-        return RestResponse.success(boardService.getBoards());
+    public ResponseEntity<List<BoardListResponseDto>> getBoardList(){
+        List<BoardListResponseDto> response = new ArrayList<>();
+
+        Map<UserInfoDto, List<BoardResponseDto>> responseDtoMap = boardService.getUserBoardMap();
+
+        responseDtoMap.forEach((key, value) -> response.add(new BoardListResponseDto(key, value)));
+
+        return ResponseEntity.ok().body(response);
+
+    }
+    @PutMapping("/{boardId}")
+    public ResponseEntity<CommonResponseDto> putBoard(@PathVariable Long boardId, @RequestBody BoardRequestDto boardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            BoardResponseDto responseDto = boardService.updateBoard(boardId, boardRequestDto, userDetails.getUser());
+            return ResponseEntity.ok().body(responseDto);
+        } catch (RejectedExecutionException | IllegalArgumentException ex) {
+            CommonResponseDto commonResponseDto = new CommonResponseDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+            return ResponseEntity.badRequest().body(commonResponseDto);
+        }
     }
 
-    @GetMapping("/feed")
-    public RestResponse<BoardGetResList> getFeedBoards(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestBody FeedBoardReq feedBoardReq) {
-        feedBoardReq.setUserId(userDetails.getUser().getUsername());
-        return RestResponse.success(boardService.getFeedBoards(feedBoardReq));
+
+    @PatchMapping("/{boardId}")
+    public ResponseEntity<CommonResponseDto> patchBoard(@PathVariable Long boardId, @RequestBody BoardRequestDto boardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) { //로그인
+        try {
+            BoardResponseDto boardResponseDto = boardService.updateBoard(boardId, boardRequestDto, userDetails.getUser());
+            return ResponseEntity.ok().body(boardResponseDto);
+        } catch (IllegalArgumentException e) {
+            CommonResponseDto commonResponseDto = new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+            return ResponseEntity.badRequest().body(commonResponseDto);
+        }
     }
 
-    //포스트 수정
-    @PatchMapping
-    public RestResponse<BoardUpdateRes> updateBoard(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestBody BoardUpdateRequestDto requestDto) {
-        requestDto.setUserId(userDetails.getUser().getUserId());
-        return RestResponse.success(boardService.updateBoard(requestDto));
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<CommonResponseDto> deleteBoard(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails) { //로그인
+        try {
+            boardService.deleteBoard(boardId, userDetails.getUser());
+            return ResponseEntity.ok().body(new CommonResponseDto("게시글 삭제가 완료되었습니다.", HttpStatus.OK.value()));
+        } catch (IllegalArgumentException e) {
+            CommonResponseDto commonResponseDto = new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+            return ResponseEntity.badRequest().body(commonResponseDto);
+        }
     }
 
-    //포스트 삭제
-    @DeleteMapping
-    public RestResponse<BoardDeleteRes> deleteBoard(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestBody BoardDeleteReq boardDeleteReq) {
-        boardDeleteReq.setUserId(userDetails.getUser().getUserId());
-        return RestResponse.success(boardService.deleteBoard(boardDeleteReq));
-    }
 }
