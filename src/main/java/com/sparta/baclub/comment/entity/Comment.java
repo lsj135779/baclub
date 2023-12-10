@@ -23,12 +23,15 @@ public class Comment extends Timestamped {
 
     // post, user 관계설정하기
     @ManyToOne
-    @JoinColumn(name = "boardId")
+    @JoinColumn(name = "board_id")
     private Board board;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Column(name = "postId")
+    private Long postId;
 
     public Comment(Board board, CommentRequestDto commentRequestDto, User user) {
         this.content = commentRequestDto.getContent();
@@ -36,6 +39,7 @@ public class Comment extends Timestamped {
         this.board = board;
         // user 정보 저장하기
         this.user = user;
+        this.postId = board.getId();
     }
 
 

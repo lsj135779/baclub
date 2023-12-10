@@ -13,6 +13,7 @@ import com.sparta.baclub.profile.dto.request.PhoneNumberRequestDto;
 import com.sparta.baclub.profile.entity.Profile;
 import com.sparta.baclub.user.entity.User;
 import com.sparta.baclub.user.service.UserService;
+import com.sparta.baclub.user.userDetails.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -26,40 +27,36 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/profile")
 public class ProfileController {
 
-    private UserService userService;
-    private Profile profile;
+    private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<Profile> myProfile(@AuthenticationPrincipal User user) {
-        Profile profile1 = userService.getUserData(user);
+    public ResponseEntity<Profile> myProfile(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        log.info("getgetgeetgetgetgegt");
+        Profile profile1 = userService.getUserData(userDetails.getUser());
         return ResponseEntity.ok(profile1);
     }
 
     @PostMapping("/nickname")
-    public ResponseEntity<NicknameResponseDto> updateNickname(@RequestBody NicknameRequestDto nicknameRequestDto,
-                                                              @AuthenticationPrincipal User user) throws ChangeSetPersister.NotFoundException {
-        NicknameResponseDto responseDto = userService.updateNickname(user, nicknameRequestDto);
+    public ResponseEntity<NicknameResponseDto> updateNickname(@RequestBody NicknameRequestDto nicknameRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws ChangeSetPersister.NotFoundException {
+        NicknameResponseDto responseDto = userService.updateNickname(userDetails.getUser(), nicknameRequestDto);
         return ResponseEntity.ok(responseDto);
     }
 
     @PostMapping("/address")
-    public ResponseEntity<AddressResponseDto> updateAddress(@RequestBody AddressRequestDto addressRequestDto,
-                                                            @AuthenticationPrincipal User user) throws ChangeSetPersister.NotFoundException {
-        AddressResponseDto responseDto = userService.updateAddress(user, addressRequestDto);
+    public ResponseEntity<AddressResponseDto> updateAddress(@RequestBody AddressRequestDto addressRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws ChangeSetPersister.NotFoundException {
+        AddressResponseDto responseDto = userService.updateAddress(userDetails.getUser(), addressRequestDto);
         return ResponseEntity.ok(responseDto);
     }
 
     @PostMapping("/age")
-    public ResponseEntity<AgeResponseDto> updateAge(@RequestBody AgeRequestDto ageRequestDto,
-                                                    @AuthenticationPrincipal User user) throws ChangeSetPersister.NotFoundException {
-        AgeResponseDto responseDto = userService.updateAge(user, ageRequestDto);
+    public ResponseEntity<AgeResponseDto> updateAge(@RequestBody AgeRequestDto ageRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws ChangeSetPersister.NotFoundException {
+        AgeResponseDto responseDto = userService.updateAge(userDetails.getUser(), ageRequestDto);
         return ResponseEntity.ok(responseDto);
     }
 
     @PostMapping("/phonenumber")
-    public ResponseEntity<PhoneNumberResponseDto> updatePhonenumber(@RequestBody PhoneNumberRequestDto phoneNumberRequestDto,
-                                                                    @AuthenticationPrincipal User user) throws ChangeSetPersister.NotFoundException {
-        PhoneNumberResponseDto responseDto = userService.updatePhoneNumber(user, phoneNumberRequestDto);
+    public ResponseEntity<PhoneNumberResponseDto> updatePhonenumber(@RequestBody PhoneNumberRequestDto phoneNumberRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws ChangeSetPersister.NotFoundException {
+        PhoneNumberResponseDto responseDto = userService.updatePhoneNumber(userDetails.getUser(), phoneNumberRequestDto);
         return ResponseEntity.ok(responseDto);
     }
 }

@@ -38,10 +38,10 @@ public class CommentService {
 
 
     public List<CommentResponseDto> getComments(Long postId) {
-        Optional<Comment> commentList = commentRepository.findAllBypostId(postId); // 댓글DB에서 postId로 가져오는 거 테스트
+        List<Comment> commentList = commentRepository.findAllBypostId(postId); // 댓글DB에서 postId로 가져오는 거 테스트
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
-//        commentList.forEach(comment -> commentResponseDtoList.add(new CommentResponseDto(comment)));
+        commentList.forEach(comment -> commentResponseDtoList.add(new CommentResponseDto(comment)));
 
         return commentResponseDtoList;
     }

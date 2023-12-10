@@ -18,12 +18,14 @@ import com.sparta.baclub.user.entity.UserRoleEnum;
 import com.sparta.baclub.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -173,6 +175,7 @@ public class UserService {
     }
 
     public Profile getUserData(final User user) {
+        log.info("ookokokokokokokokokokokko");
         return Profile.builder()
                 .username(user.getUsername())
                 .nickname(user.getNickname())
