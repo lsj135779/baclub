@@ -2,13 +2,10 @@ package com.sparta.baclub.board.dto.Response;
 
 import com.sparta.baclub.CommonResponseDto;
 import com.sparta.baclub.board.entity.Board;
-import com.sparta.baclub.user.dto.UserInfoDto;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Setter
 @Getter
