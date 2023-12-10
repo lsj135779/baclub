@@ -1,4 +1,4 @@
-package com.sparta.baclub.TEST.user.controller;
+package com.sparta.baclub.user.controller;
 
 
 import com.sparta.baclub.CommonResponseDto;
