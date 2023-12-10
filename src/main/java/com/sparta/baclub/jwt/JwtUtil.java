@@ -51,7 +51,7 @@ public class JwtUtil {
     }
 
     // 토큰 생성
-    public String createAcessToken(String username, UserRoleEnum role) {
+    public String createAccessToken(String username, UserRoleEnum role) {
         Date date = new Date();
         // access token 생성
         return BEARER_PREFIX +

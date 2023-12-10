@@ -22,9 +22,6 @@ repositories {
 }
 
 dependencies {
-    // redis 의존성(로그아웃 구현을 위해)
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-
     // JWT
     compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
