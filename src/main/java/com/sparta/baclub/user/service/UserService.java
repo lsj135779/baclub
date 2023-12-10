@@ -1,6 +1,6 @@
 package com.sparta.baclub.user.service;
 
-
+import com.sparta.baclub.board.repository.BoardRepository;
 import com.sparta.baclub.profile.dto.reponse.AddressResponseDto;
 import com.sparta.baclub.profile.dto.reponse.AgeResponseDto;
 import com.sparta.baclub.profile.dto.reponse.NicknameResponseDto;
@@ -32,6 +32,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
 
 
     // ADMIN_TOKEN-----------------------------------------------------------
@@ -76,27 +77,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-//    public void login(LoginRequestDto requestDto, HttpServletResponse res) {
-//        String username = requestDto.getUsername();
-//        String password = requestDto.getPassword();
-//
-//        // 사용자 확인
-//        User user = userRepository.findByUsername(username).orElseThrow(() ->
-//            new IllegalArgumentException("등록되지 않은 계정입니다.")
-//        );
-//
-//        // 비밀번호 확인
-//        if(!passwordEncoder.matches(password, user.getPassword())) {
-//            throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
-//        }
-//
-//        //JWT 생성 및 쿠키에 저장 후 Response 객체에 추가
-//        //*** user.getNickname으로 해야할까?
-//        String token = jwtUtil.createToken(user.getUsername(), user.getRole());
-//        jwtUtil.addJwtToCookie(token, res);
-//    }
-
-
     public void login(LoginRequestDto loginRequestDto) {
         String username = loginRequestDto.getUsername();
         String password = loginRequestDto.getPassword();
@@ -108,6 +88,12 @@ public class UserService {
             throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         }
     }
+
+    @Transactional(readOnly = true)
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+  
     @Transactional
     public NicknameResponseDto updateNickname(final User user, final NicknameRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
         Optional<User> findUser = userRepository.findByNickname(requestDto.getNickname());
