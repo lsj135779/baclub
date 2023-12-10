@@ -21,17 +21,18 @@ import java.util.Date;
 public class JwtUtil {
     // Header KEY 값
     public static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String REFRESH_AUTHORIZATION_HEADER = "Refresh-Authorization";
     // 사용자 권한 값의 KEY
     public static final String AUTHORIZATION_KEY = "auth";
     // Token 식별자
     public static final String BEARER_PREFIX = "Bearer ";
-    // 토큰 만료시간
+    private static final long TOKEN_TIME = 60 * 60 * 1000L;
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = 7 * 24 * 60 * 60 * 1000L;
 
     @Value("${jwt.secret.key}") // Base64 Encode 한 SecretKey
     private String secretKey;
     private Key key;
     private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-
     // 로그 설정
     public static final Logger logger = LoggerFactory.getLogger("JWT 관련 로그");
 
@@ -49,18 +50,29 @@ public class JwtUtil {
         return null;
     }
 
-    // 토큰 생성 //***토큰에다가 nickname을 포함시킬지 안시킬지 상의
-    public String createToken(String username, UserRoleEnum role) { // ***사용자권한 나중에 추가
+    // 토큰 생성
+    public String createAccessToken(String username, UserRoleEnum role) {
         Date date = new Date();
-        long TOKEN_TIME = 60 * 60 * 1000L; // 60분
-
+        // access token 생성
         return BEARER_PREFIX +
                 Jwts.builder()
-                        .setSubject(username) // 사용자 식별자값(ID) //***nickname으로 할까?
+                        .setSubject(username) // 사용자 식별자값(ID)
                         .claim(AUTHORIZATION_KEY, role) // 사용자 권한
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
                         .setIssuedAt(date) // 발급일
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
+                        .compact();
+    }
+
+    public String createRefreshToken(UserRoleEnum role) {
+        Date date = new Date();
+        // Refresh Token 생성
+        return BEARER_PREFIX +
+                Jwts.builder()
+                        .claim(AUTHORIZATION_KEY, role)
+                        .setExpiration(new Date(date.getTime() + REFRESH_TOKEN_EXPIRE_TIME))
+                        .setIssuedAt(date) // 발급일
+                        .signWith(key, signatureAlgorithm)
                         .compact();
     }
 
@@ -85,5 +97,4 @@ public class JwtUtil {
     public Claims getUserInfoFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
-
 }
