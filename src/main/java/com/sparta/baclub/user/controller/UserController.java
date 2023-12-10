@@ -1,18 +1,17 @@
-package com.sparta.baclub.user.controller;
+package com.sparta.baclub.TEST.user.controller;
 
 
 import com.sparta.baclub.CommonResponseDto;
+import com.sparta.baclub.jwt.JwtUtil;
 import com.sparta.baclub.user.dto.*;
 import com.sparta.baclub.user.entity.User;
 import com.sparta.baclub.user.entity.UserRoleEnum;
-import com.sparta.baclub.jwt.JwtUtil;
 import com.sparta.baclub.user.service.RefreshTokenService;
-import com.sparta.baclub.user.userDetails.UserDetailsImpl;
 import com.sparta.baclub.user.service.UserService;
+import com.sparta.baclub.user.userDetails.UserDetailsImpl;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,8 +25,6 @@ public class UserController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
     private final RefreshTokenService refreshTokenService;
-
-
 
     @PostMapping("/signup")
     public ResponseEntity<CommonResponseDto> signup(@Valid @RequestBody SignupRequestDto requestDto) {
@@ -52,7 +49,7 @@ public class UserController {
         User user = userService.findByUsername(loginRequestDto.getUsername());
 
         //Access Token 생성
-        String accessToken = jwtUtil.createAcessToken(loginRequestDto.getUsername() ,UserRoleEnum.USER);
+        String accessToken = jwtUtil.createAccessToken(loginRequestDto.getUsername() ,UserRoleEnum.USER);
 //        response.setHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createAcessToken(loginRequestDto.getUsername(), UserRoleEnum.USER));
         //Refresh Token 생성
         String refreshToken = jwtUtil.createRefreshToken(UserRoleEnum.USER);

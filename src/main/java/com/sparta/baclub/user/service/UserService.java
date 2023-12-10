@@ -10,13 +10,12 @@ import com.sparta.baclub.profile.dto.request.AgeRequestDto;
 import com.sparta.baclub.profile.dto.request.NicknameRequestDto;
 import com.sparta.baclub.profile.dto.request.PhoneNumberRequestDto;
 import com.sparta.baclub.profile.entity.Profile;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import com.sparta.baclub.user.dto.LoginRequestDto;
 import com.sparta.baclub.user.dto.SignupRequestDto;
 import com.sparta.baclub.user.entity.User;
 import com.sparta.baclub.user.entity.UserRoleEnum;
 import com.sparta.baclub.user.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -89,11 +88,13 @@ public class UserService {
         }
     }
 
+
     @Transactional(readOnly = true)
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
-  
+    }
+
     @Transactional
     public NicknameResponseDto updateNickname(final User user, final NicknameRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
         Optional<User> findUser = userRepository.findByNickname(requestDto.getNickname());
