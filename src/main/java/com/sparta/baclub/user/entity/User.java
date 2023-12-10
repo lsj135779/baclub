@@ -1,10 +1,13 @@
 package com.sparta.baclub.user.entity;
 
+import com.sparta.baclub.Timestamped;
+import com.sparta.baclub.board.entity.Board;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.List;
 
 @Entity
 @Getter
@@ -46,6 +49,11 @@ public class User {
                 String nickname, int age,
                 String sex, String address,
                 String phoneNumber, UserRoleEnum role) {
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Board> boardList;
+
+    public User(String username, String password, String nickname, int age, String sex, String address, String phoneNumber, UserRoleEnum role) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
