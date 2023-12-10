@@ -44,15 +44,10 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-    @Builder
-    public User(String username, String password,
-                String nickname, int age,
-                String sex, String address,
-                String phoneNumber, UserRoleEnum role) {
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Board> boardList;
 
+    @Builder
     public User(String username, String password, String nickname, int age, String sex, String address, String phoneNumber, UserRoleEnum role) {
         this.username = username;
         this.password = password;
