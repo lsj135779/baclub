@@ -1,6 +1,6 @@
 package com.sparta.baclub.comment.service;
 
-import com.sparta.baclub.board.entity.BoardEntity;
+import com.sparta.baclub.board.entity.Board;
 import com.sparta.baclub.board.repository.BoardRepository;
 import com.sparta.baclub.comment.dto.CommentRequestDto;
 import com.sparta.baclub.comment.dto.CommentResponseDto;
@@ -23,7 +23,7 @@ public class CommentService {
 
     public CommentResponseDto createComment(Long postId, CommentRequestDto commentRequestDto, User user) {
         // 게시글이 있는지 postId 확인하기
-        BoardEntity board = boardRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
+        Board board = boardRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
 
         // 요청한 정보에 content가 없는 경우
         if (commentRequestDto.getContent() == null) {
